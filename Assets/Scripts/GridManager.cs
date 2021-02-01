@@ -11,21 +11,19 @@ public class GridManager : MonoBehaviour
     [SerializeField] GameObject tilePrefab;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
+        GenerateGrid();
+    }
+
+    private void GenerateGrid() {
         float tileSize = GetComponent<GridLayoutGroup>().cellSize.x;
         GetComponent<RectTransform>().sizeDelta = new Vector2(sizeX * tileSize, sizeY * tileSize);
 
         for (int x = 0; x < sizeX; x++) {
             for (int y = 0; y < sizeY; y++) {
-                Instantiate(tilePrefab, this.transform);
+                GameObject tile = Instantiate(tilePrefab, this.transform);
+                tile.GetComponent<Tile>().SetCoordinate(x, y);
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

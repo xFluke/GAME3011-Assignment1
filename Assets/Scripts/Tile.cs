@@ -1,18 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Tile : MonoBehaviour
+public class Tile : MonoBehaviour, IPointerClickHandler 
 {
+    [SerializeField] int points;
+    [SerializeField] int x;
+    [SerializeField] int y;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void RevealPoints() {
+        GetComponentInChildren<Text>().text = points.ToString();
+    }
+
+    public void SetCoordinate(int _x, int _y) {
+        x = _x;
+        y = _y;
+    }
+
+    public void OnPointerClick(PointerEventData eventData) {
+        RevealPoints();
     }
 }
