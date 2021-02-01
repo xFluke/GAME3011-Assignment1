@@ -26,6 +26,17 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnPointerClick(PointerEventData eventData) {
-        RevealPoints();
+        if (FindObjectOfType<GameManager>().GetMode() == Mode.EXTRACT) {
+
+        }
+        else {
+            FindObjectOfType<GridManager>().GetSurroundingTiles(this);
+            Debug.Log("Clicked on " + GetCoordinate());
+        }
+
+    }
+
+    public Vector2Int GetCoordinate() {
+        return new Vector2Int(x, y);
     }
 }
