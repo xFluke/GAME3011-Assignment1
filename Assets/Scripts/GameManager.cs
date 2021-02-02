@@ -15,6 +15,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Text modeDisplayText;
 
+    public const int MAXPOINTS = 8;
+    
+    [SerializeField] int numOfMaxPointTiles;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,5 +39,9 @@ public class GameManager : MonoBehaviour
 
     public Mode GetMode() {
         return currentMode;
+    }
+
+    public int GetNumOfMaxPointTiles() {
+        return numOfMaxPointTiles;
     }
 }

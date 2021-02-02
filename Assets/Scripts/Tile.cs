@@ -30,7 +30,7 @@ public class Tile : MonoBehaviour, IPointerClickHandler
 
         }
         else {
-            FindObjectOfType<GridManager>().GetSurroundingTiles(this);
+            FindObjectOfType<GridManager>().GetSurroundingTiles5x5(this);
             Debug.Log("Clicked on " + GetCoordinate());
         }
 
