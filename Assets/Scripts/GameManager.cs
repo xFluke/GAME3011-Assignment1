@@ -27,11 +27,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text messageBar;
     [SerializeField] Text pointsCounter;
 
+    [SerializeField] GameObject gameOverPanel;
+
     public bool scanningDisabled { get; private set; }
     public bool extractingDisabled { get; private set; }
 
-
     [SerializeField] int points;
+
+    private void OnEnable() {
+        gameOverPanel.SetActive(false);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -85,6 +90,9 @@ public class GameManager : MonoBehaviour
         if (currentNumberOfExtracts >= maxExtracts) {
             extractingDisabled = true;
             messageBar.text = "Used up all extracts!";
+            gameOverPanel.SetActive(true);
+            gameOverPanel.GetComponent<GameOver>().SetPoints(points);
+
         }
         else {
             messageBar.text = "Extracted " + p + " points!";
