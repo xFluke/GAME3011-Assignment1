@@ -9,7 +9,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] int sizeY;
     [SerializeField] GameObject tilePrefab;
 
-    public List<Vector2> maxTileLocations = new List<Vector2>();
+    public List<Vector2Int> maxTileLocations = new List<Vector2Int>();
 
     Tile[,] grid;
 
@@ -44,7 +44,7 @@ public class GridManager : MonoBehaviour
         return grid[x, y];
     }
 
-    public void GetSurroundingTiles3x3(Tile centerTile) {
+    public Tile[] GetSurroundingTiles3x3(Tile centerTile) {
         Vector2Int coordinate = centerTile.GetCoordinate();
 
         Tile[] tiles = new Tile[9];
@@ -62,9 +62,11 @@ public class GridManager : MonoBehaviour
                 tile.GetComponent<Image>().color = new Color(255, 0, 0);
             }
         }
+
+        return tiles;
     }
 
-    public void GetSurroundingTiles5x5(Tile centerTile) {
+    public Tile[] GetSurroundingTiles5x5(Tile centerTile) {
         Vector2Int coordinate = centerTile.GetCoordinate();
 
         Tile[] tiles = new Tile[25];
@@ -82,17 +84,19 @@ public class GridManager : MonoBehaviour
                 tile.GetComponent<Image>().color = new Color(255, 0, 0);
             }
         }
+
+        return tiles;
     }
 
     private void RandomlySelectMaxPointTilesStartLocations() {
         int max = FindObjectOfType<GameManager>().GetNumOfMaxPointTiles();
 
-        maxTileLocations = new List<Vector2>();
+        maxTileLocations = new List<Vector2Int>();
 
         for (int i = 0; i < max; i++) {
             int randomX = Random.Range(0, sizeX - 1);
             int randomY = Random.Range(0, sizeY - 1);
-            Vector2 randomLocation = new Vector2(randomX, randomY);
+            Vector2Int randomLocation = new Vector2Int(randomX, randomY);
 
             bool stopTrying = false;
             int tries = 0;
@@ -125,10 +129,10 @@ public class GridManager : MonoBehaviour
                 if (searchAgain) {
                     randomX = Random.Range(0, sizeX - 1);
                     randomY = Random.Range(0, sizeY - 1);
-                    randomLocation = new Vector2(randomX, randomY);
+                    randomLocation = new Vector2Int(randomX, randomY);
                     tries++;
 
-                    if (tries > 10) {
+                    if (tries > 20) {
                         stopTrying = true;
                         break;
                     }
@@ -136,6 +140,7 @@ public class GridManager : MonoBehaviour
                 else {
                     found = true;
                     maxTileLocations.Add(randomLocation);
+                    SetPointsSurroundingMaxResourceTile(randomLocation);
                     GetTileAt(randomX, randomY).GetComponent<Image>().color = new Color(0, 255, 0);
                 }
             }
@@ -145,5 +150,27 @@ public class GridManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void SetPointsSurroundingMaxResourceTile(Vector2Int maxResourceTileLocation) {
+        Tile[] fiveByFiveTiles = GetSurroundingTiles5x5(GetTileAt(maxResourceTileLocation.x, maxResourceTileLocation.y));
+        foreach (Tile tile in fiveByFiveTiles) {
+            if (tile != null) {
+                tile.SetColor(Color.red);
+                tile.SetPoints(2);
+            }
+        }
+
+        Tile[] threeByThreeTiles = GetSurroundingTiles3x3(GetTileAt(maxResourceTileLocation.x, maxResourceTileLocation.y));
+        foreach (Tile tile in threeByThreeTiles) {
+            if (tile != null) {
+                tile.SetColor(Color.yellow);
+                tile.SetPoints(4);
+            }
+        }
+
+        Tile centerTile = GetTileAt(maxResourceTileLocation.x, maxResourceTileLocation.y);
+        centerTile.SetColor(Color.green);
+        centerTile.SetPoints(8);
     }
 }

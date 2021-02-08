@@ -6,14 +6,31 @@ using UnityEngine.EventSystems;
 
 public class Tile : MonoBehaviour, IPointerClickHandler 
 {
-    [SerializeField] int points;
+    [SerializeField] int points = 0;
     [SerializeField] int x;
     [SerializeField] int y;
+    [SerializeField] bool revealed = true;
+    [SerializeField] Color color = Color.white;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (revealed) {
+            GetComponentInChildren<Text>().text = points.ToString();
+        }
+        else {
+            GetComponentInChildren<Text>().text = "";
+        }
 
+        GetComponent<Image>().color = color;
+    }
+
+    public void SetColor(Color c) {
+        color = c;
+    }
+
+    public void SetPoints(int p) {
+        points = p;
     }
 
     public void RevealPoints() {
