@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     [SerializeField] int points = 0;
     [SerializeField] int x;
     [SerializeField] int y;
-    [SerializeField] bool revealed = true;
+    [SerializeField] bool revealed = false;
     [SerializeField] Color color = Color.white;
 
     // Start is called before the first frame update
@@ -22,7 +22,7 @@ public class Tile : MonoBehaviour, IPointerClickHandler
             GetComponentInChildren<Text>().text = "";
         }
 
-        GetComponent<Image>().color = color;
+        GetComponent<Image>().color = Color.white;
     }
 
     public void SetColor(Color c) {
@@ -33,8 +33,10 @@ public class Tile : MonoBehaviour, IPointerClickHandler
         points = p;
     }
 
-    public void RevealPoints() {
+    public void RevealTile() {
+        revealed = true;
         GetComponentInChildren<Text>().text = points.ToString();
+        GetComponent<Image>().color = color;
     }
 
     public void SetCoordinate(int _x, int _y) {
@@ -47,8 +49,15 @@ public class Tile : MonoBehaviour, IPointerClickHandler
 
         }
         else {
-            FindObjectOfType<GridManager>().GetSurroundingTiles5x5(this);
-            Debug.Log("Clicked on " + GetCoordinate());
+            // Scan Mode
+            Tile[] scannedTiles = FindObjectOfType<GridManager>().GetSurroundingTiles3x3(this);
+
+            foreach (Tile tile in scannedTiles) {
+                if (tile != null) {
+                    tile.RevealTile();
+                }
+            }
+            
         }
 
     }

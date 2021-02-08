@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sizeX: 32
-  sizeY: 16
+  sizeY: 14
   tilePrefab: {fileID: 4618909642649079622, guid: f2eb7b440f9c24140908be349f6e8ba4, type: 3}
   maxTileLocations: []
 --- !u!1 &599590771
@@ -1095,4 +1095,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modeDisplayText: {fileID: 619389486}
-  numOfMaxPointTiles: 10
+  numOfMaxPointTiles: 15

@@ -57,12 +57,6 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        foreach (var tile in tiles) {
-            if (tile != null) {
-                tile.GetComponent<Image>().color = new Color(255, 0, 0);
-            }
-        }
-
         return tiles;
     }
 
@@ -76,12 +70,6 @@ public class GridManager : MonoBehaviour
             for (int y = coordinate.y - 2; y <= coordinate.y + 2; y++) {
                 tiles[i] = GetTileAt(x, y);
                 i++;
-            }
-        }
-
-        foreach (var tile in tiles) {
-            if (tile != null) {
-                tile.GetComponent<Image>().color = new Color(255, 0, 0);
             }
         }
 
