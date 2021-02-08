@@ -22,8 +22,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] int currentNumberOfScans;
 
     [SerializeField] Text messageBar;
+    [SerializeField] Text pointsCounter;
 
-    public bool scanningDisabled;
+    public bool scanningDisabled { get; private set; }
+
+    [SerializeField] int points;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +34,7 @@ public class GameManager : MonoBehaviour
         currentMode = Mode.SCAN;
         currentNumberOfScans = 0;
         scanningDisabled = false;
+        points = 0;
     }
 
     public void ToggleMode() {
@@ -63,5 +67,13 @@ public class GameManager : MonoBehaviour
         else {
             messageBar.text = "Number of scans left: " + (maxScans - currentNumberOfScans);
         }
+    }
+
+    public void AddPoints(int p) {
+        points += p;
+        pointsCounter.text = "Points: " + points;
+
+        messageBar.text = "Extracted " + p + " points!";
+        messageBar.text += "\nThe surrounding 5x5 area has been damaged by one level!";
     }
 }
