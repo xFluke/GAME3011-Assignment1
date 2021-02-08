@@ -5,8 +5,7 @@ using UnityEditor;
 
 public class StartButton : MonoBehaviour
 {
-    [SerializeField] GameObject minigamePrefab;
     public void StartGame() {
-        PrefabUtility.InstantiatePrefab(minigamePrefab);
+        GameObject minigame = Instantiate(Resources.Load("TileBasedMinigame")) as GameObject;
     }
 }

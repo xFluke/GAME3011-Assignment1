@@ -7,17 +7,16 @@ using UnityEditor;
 public class GameOver : MonoBehaviour
 {
     [SerializeField] Text pointsCounter;
-    [SerializeField] GameObject minigamePrefab;
-
 
     public void SetPoints(int p) {
         pointsCounter.text = "Points: " + p.ToString();
     }
 
     public void Replay() {
-        //Instantiate(minigamePrefab);
-        Instantiate(minigamePrefab);
         Destroy(transform.parent.gameObject);
+
+        GameObject minigame = Instantiate(Resources.Load("TileBasedMinigame")) as GameObject;
+
     }
 
     public void Quit() {
