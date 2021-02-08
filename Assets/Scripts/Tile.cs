@@ -66,6 +66,9 @@ public class Tile : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData) {
         if (FindObjectOfType<GameManager>().GetMode() == Mode.EXTRACT) {
+            if (FindObjectOfType<GameManager>().extractingDisabled)
+                return;
+
             FindObjectOfType<GameManager>().AddPoints(points);
 
             points = 0;
