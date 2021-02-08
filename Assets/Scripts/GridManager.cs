@@ -94,6 +94,9 @@ public class GridManager : MonoBehaviour
             int randomY = Random.Range(0, sizeY - 1);
             Vector2 randomLocation = new Vector2(randomX, randomY);
 
+            bool stopTrying = false;
+            int tries = 0;
+
             bool found = false;
             while (!found) {
                 bool searchAgain = false;
@@ -123,14 +126,24 @@ public class GridManager : MonoBehaviour
                     randomX = Random.Range(0, sizeX - 1);
                     randomY = Random.Range(0, sizeY - 1);
                     randomLocation = new Vector2(randomX, randomY);
+                    tries++;
+
+                    if (tries > 10) {
+                        stopTrying = true;
+                        break;
+                    }
                 }
                 else {
                     found = true;
                     maxTileLocations.Add(randomLocation);
+                    GetTileAt(randomX, randomY).GetComponent<Image>().color = new Color(0, 255, 0);
                 }
             }
         
-            GetTileAt(randomX, randomY).GetComponent<Image>().color = new Color(0, 255, 0);
+            if (stopTrying) {
+                Debug.Log("Only generated " + i + " max resource tiles");
+                break;
+            }
         }
     }
 }
