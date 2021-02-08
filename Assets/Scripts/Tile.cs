@@ -50,6 +50,9 @@ public class Tile : MonoBehaviour, IPointerClickHandler
         }
         else {
             // Scan Mode
+            if (FindObjectOfType<GameManager>().scanningDisabled)
+                return;
+
             Tile[] scannedTiles = FindObjectOfType<GridManager>().GetSurroundingTiles3x3(this);
 
             foreach (Tile tile in scannedTiles) {
@@ -57,7 +60,8 @@ public class Tile : MonoBehaviour, IPointerClickHandler
                     tile.RevealTile();
                 }
             }
-            
+
+            FindObjectOfType<GameManager>().IncrementCurrentNumberOfScans();
         }
 
     }

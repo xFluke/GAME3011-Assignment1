@@ -18,12 +18,19 @@ public class GameManager : MonoBehaviour
     public const int MAXPOINTS = 8;
     
     [SerializeField] int numOfMaxPointTiles;
+    [SerializeField] int maxScans;
+    [SerializeField] int currentNumberOfScans;
 
+    [SerializeField] Text messageBar;
+
+    public bool scanningDisabled;
 
     // Start is called before the first frame update
     void Start()
     {
         currentMode = Mode.SCAN;
+        currentNumberOfScans = 0;
+        scanningDisabled = false;
     }
 
     public void ToggleMode() {
@@ -43,5 +50,18 @@ public class GameManager : MonoBehaviour
 
     public int GetNumOfMaxPointTiles() {
         return numOfMaxPointTiles;
+    }
+
+    public void IncrementCurrentNumberOfScans() {
+        currentNumberOfScans++;
+
+        if (currentNumberOfScans >= maxScans) {
+            scanningDisabled = true;
+            messageBar.text = "Used up all scans!";
+           
+        }
+        else {
+            messageBar.text = "Number of scans left: " + (maxScans - currentNumberOfScans);
+        }
     }
 }
